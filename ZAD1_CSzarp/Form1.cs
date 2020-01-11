@@ -23,9 +23,13 @@ namespace ZAD1_CSzarp
                 foreach (Type item in plugin.GetTypes()) //lista klas
                     foreach (MethodInfo method in item.GetMethods())
                     {
-                        
-                        wtyczkiToolStripMenuItem.DropDownItems.Add(new ToolStripMenuItem(method.Name, null,
-MenuHandler, myFilename + "|" + item.Name + "|" + method.Name));
+                        if (method.Name.Contains("getPluginName"))
+                        {
+                            
+                            object result =  method.Invoke(null, new object[] { });
+                            wtyczkiToolStripMenuItem.DropDownItems.Add(new ToolStripMenuItem(result.ToString().Substring(1), null,
+    MenuHandler, myFilename + "|" + item.Name + "|" + method.Name));
+                        }
 
                     }
 
@@ -56,10 +60,12 @@ MenuHandler, myFilename + "|" + item.Name + "|" + method.Name));
                 }
                 if (result.ToString().Substring(0, 1) == "r")
                 {
+                    
                     method.Invoke(null, new object[] { richTextBox1 });
                 }
-                else if(result.ToString().Substring(0, 1).Equals("s")){
-                        richTextBox1.Text = method.Invoke(null, new object[] { result.ToString().Substring(1) }).ToString();
+                else if (result.ToString().Substring(0, 1).Equals("s"))
+                {
+                    richTextBox1.Text = method.Invoke(null, new object[] { result.ToString().Substring(1) }).ToString();
                 }
                 else if (result.ToString().Substring(0, 1).Equals("e"))
                 {
@@ -69,8 +75,6 @@ MenuHandler, myFilename + "|" + item.Name + "|" + method.Name));
 
 
             }
-            
-
 
         }
 
